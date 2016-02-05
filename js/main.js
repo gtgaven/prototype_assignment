@@ -163,7 +163,7 @@ window.onload = function() {
             hero.x += 3;
             hero.animations.play('walk', 15, true);
         }else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)&& hero.x > 0){
-            hero.x -= 5;
+            hero.x -= 7;
             hero.animations.play('left', 15, true);
         }else if(hero.x > 0){
             hero.x -= frontVelocity;
