@@ -43,10 +43,10 @@ window.onload = function() {
     var mountain2;
     var hero;
     var sun;
-    var life = 200;
+    var life = 500;
     var lifeText;
     var endText;
-    var sunVelocity = -1;
+    var sunVelocity = 2;
     var bass;
     
     function create() {
@@ -55,7 +55,7 @@ window.onload = function() {
         bass.play();
         
         
-        lifeText = game.add.text(25, 25, "Life: 200", { fontSize: '32px', fill: '#000' });
+        lifeText = game.add.text(25, 25, "Life: 500", { fontSize: '32px', fill: '#000' });
         
         var skyLayer = game.add.group();
         skyLayer.z = 0;
