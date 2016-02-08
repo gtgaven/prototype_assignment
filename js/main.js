@@ -25,8 +25,11 @@ window.onload = function() {
         game.load.image( 'trees', 'assets/trees.gif' );
         game.load.image( 'mountain', 'assets/mountain.gif' );
         game.load.image( 'mid', 'assets/mid.gif' );
+        game.load.image( 'sun', 'assets/sun.gif' );
         
         game.load.spritesheet('hero', 'assets/hero.png', 50, 70 );
+        
+        game.load.audio('bass', 'assets/bass.mp3' );
     }
     
     var sky1;
@@ -39,11 +42,20 @@ window.onload = function() {
     var mountain1;
     var mountain2;
     var hero;
+    var sun;
+    var life = 200;
+    var lifeText;
+    var endText;
+    var sunVelocity = -1;
+    var bass;
     
     function create() {
         
+        bass = game.add.audio('bass');
+        bass.play();
         
         
+        lifeText = game.add.text(25, 25, "Life: 200", { fontSize: '32px', fill: '#000' });
         
         var skyLayer = game.add.group();
         skyLayer.z = 0;
@@ -64,6 +76,10 @@ window.onload = function() {
         hero.animations.add('walk', [0, 1]);
         hero.animations.add('left', [2, 3]);
         hero.animations.add('stand', [4]);
+        
+        sun = new Phaser.Sprite(game, 300, 200, 'sun');
+        frontLayer.add(sun);
+        frontLayer.add(lifeText);
         
         
         
@@ -124,7 +140,6 @@ window.onload = function() {
         sky2.x -= backVelocity;
         mountain2.x -= farVelocity;
         mid2.x -= midVelocity;
-        //trees2.x -= frontVelocity;
         ground2.x -= frontVelocity;
         
         
@@ -159,6 +174,9 @@ window.onload = function() {
             mountain2.x = 900;
         }
         
+        //TODO after some amount of time
+        updateSunPosition();
+        
         if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) && hero.x < 750){
             hero.x += 3;
             hero.animations.play('walk', 15, true);
@@ -173,6 +191,20 @@ window.onload = function() {
         }
         
         
+        if(hero.x > sun.x && hero.x < sun.x+100){
+            bass.resume();
+            addToScore();
+        }else if(life>0){
+            bass.pause();
+            life-=1;
+            lifeText.text = 'Life: '+life;
+        }else{
+            lifeText.text = 'Life: 0';
+            endText = game.add.text(300, 200, "Game Over", { fontSize: '32px', fill: '#ff0000' });
+            gameOver();
+        }
+        
+        
         
         
         
@@ -182,6 +214,30 @@ window.onload = function() {
         // This function returns the rotation angle that makes it visually match its
         // new trajectory.
         //bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, this.game.input.activePointer, 500, 500, 500 );
+    }
+    
+    function addToScore(){
+        if(life<500){
+            life+=1;
+            lifeText.text = 'Life: '+life;
+        }
+        
+    }
+    
+    function updateSunPosition(){
+        if(sun.x<50){
+            sunVelocity = 2;
+        }if(sun.x>700){
+            sunVelocity = -3
+        }
+        sun.x+=sunVelocity;
+    }
+    
+    function gameOver(){
+        
+        game.gamePaused();
+        
+                                    
     }
     
 };
