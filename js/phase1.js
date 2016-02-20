@@ -117,6 +117,8 @@ Defusal.Phase1.prototype = {
         }
         
         if(correct1 == 1 && correct2 == 1 && correct3 == 1 && correct4 == 1){
+            
+            
              this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4);
         }
         if(wrongGuessesLeft < 1){
