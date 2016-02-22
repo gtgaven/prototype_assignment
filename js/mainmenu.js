@@ -17,9 +17,9 @@ Defusal.MainMenu.prototype = {
 
 	create: function () {
         
-        var introtext = this.add.text(25, 25, "Directions: Enter the correct numbers to figure out the code", { fontSize: '32px', fill: '#000' });
+        var introtext = this.add.text(25, 150, "Welcome to Defusal! This game is split up into 3 phases:\n\nPhase 1: Guess the correct numbers. You only get 5\n\t\t wrong guesses, make sure to remember the order!\n\nPhase 2: Type the code in order\n\nPhase 3: Cut the blue or the red wire. Choose wisely!", { fontSize: '20px', fill: '#fff' });
 
-		this.playButton = this.add.button(100, 200, 'startbutton', this.play, this);
+		this.playButton = this.add.button(300, 50, 'startbutton', this.play, this);
 
 	},
 

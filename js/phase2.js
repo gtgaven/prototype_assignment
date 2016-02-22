@@ -1,14 +1,16 @@
 Defusal.Phase2 = function(game) {
-
+    this.checkButton = null;
 };
 
 //global vars
 
 var instructions;
+var background;
 var textbox1;
 var textbox2;
 var textbox3;
 var textbox4;
+var text;
 var explosionsound;
 
 var digit1;
@@ -21,6 +23,8 @@ var guess2;
 var guess3;
 var guess4;
 
+var code;
+
 var currentGuess = 0;
 
 Defusal.Phase2.prototype = {
@@ -30,15 +34,26 @@ Defusal.Phase2.prototype = {
         digit2 = second;
         digit3 = third;
         digit4 = fourth;
+        code = ""+first+" "+second+" "+third+" "+fourth;
+    },
+
+    preload: function(){
+        this.load.image('checkButton', 'assets/checkButton.gif');
     },
 
 	create: function() {
         
+        var background = this.add.group();
+        background.z = 0;
+        var bomb = new Phaser.Sprite(this, 0, 0, 'bomb');
+        background.add(bomb);
+        
         instructions = this.add.text(25, 25, "Type code in correct order!", { fontSize: '20px', fill: '#fff' });
-        textbox1 = this.add.text(200, 200, "*", { fontSize: '40px', fill: '#fff' });
-        textbox2 = this.add.text(250, 200, "*", { fontSize: '40px', fill: '#fff' });
-        textbox3 = this.add.text(300, 200, "*", { fontSize: '40px', fill: '#fff' });
-        textbox4 = this.add.text(350, 200, "*", { fontSize: '40px', fill: '#fff' });
+        textbox1 = this.add.text(240, 150, "*", { fontSize: '40px', fill: '#fff' });
+        textbox2 = this.add.text(340, 150, "*", { fontSize: '40px', fill: '#fff' });
+        textbox3 = this.add.text(450, 150, "*", { fontSize: '40px', fill: '#fff' });
+        textbox4 = this.add.text(570, 150, "*", { fontSize: '40px', fill: '#fff' });
+        text = this.add.text(100, 500, "", { fontSize: '40px', fill: '#fff' });
         explosionsound = this.add.audio('explosionsound');
         
         
@@ -73,6 +88,9 @@ Defusal.Phase2.prototype = {
         key9.onDown.add(this.press9, this);
         
         
+        
+        this.checkButton = this.add.button(530, 280, 'checkButton', this.checkCode, this);
+        this.checkButton.visible = false;
 
 	},
     
@@ -81,16 +99,17 @@ Defusal.Phase2.prototype = {
        /* keep clock going  */
         
         if(currentGuess >= 4){
-            this.checkCode();
+            this.checkButton.visible = true;
+            text.text = "PRESS THE GREEN BUTTON!!";
         }
         
     },
     
     checkCode: function(){
         if(guess1 == digit1 && guess2 == digit2 && guess3 == digit3 && guess4 == digit4){
-            this.state.start('Phase3', true, false, 1);
+            this.state.start('Phase3', true, false, 1, code);
         }else{
-            this.state.start('Phase3', true, false, 0);
+            this.state.start('Phase3', true, false, 0, code);
             
         }
         

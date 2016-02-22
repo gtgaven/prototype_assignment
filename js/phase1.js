@@ -29,23 +29,35 @@ var correct4 = 0;
 var correctSound;
 var incorrectSound;
 
+var delay;
+var notbeenset = 1;
+
 //var timer, timerEvent;
 
 
 
 Defusal.Phase1.prototype = {
     
+    preload: function(){
+        this.load.image('bomb', 'assets/bomb.gif');
+    },
+    
     
 
 	create: function() {
         //display bomb sprite, timer etc
         
+        var background = this.add.group();
+        background.z = 0;
+        var bomb = new Phaser.Sprite(this, 0, 0, 'bomb');
+        background.add(bomb);
+        
         instructions = this.add.text(25, 25, "Use number keys to guess the correct code!", { fontSize: '20px', fill: '#fff' });
         guessesLeftText = this.add.text(600, 50, "Threshold: " + wrongGuessesLeft, { fontSize: '20px', fill: '#a00' });
-        textbox1 = this.add.text(200, 200, "0", { fontSize: '40px', fill: '#fff' });
-        textbox2 = this.add.text(250, 200, "0", { fontSize: '40px', fill: '#fff' });
-        textbox3 = this.add.text(300, 200, "0", { fontSize: '40px', fill: '#fff' });
-        textbox4 = this.add.text(350, 200, "0", { fontSize: '40px', fill: '#fff' });
+        textbox1 = this.add.text(240, 150, "0", { fontSize: '40px', fill: '#fff' });
+        textbox2 = this.add.text(340, 150, "0", { fontSize: '40px', fill: '#fff' });
+        textbox3 = this.add.text(450, 150, "0", { fontSize: '40px', fill: '#fff' });
+        textbox4 = this.add.text(570, 150, "0", { fontSize: '40px', fill: '#fff' });
         correctSound = this.add.audio('correct');
         incorrectSound = this.add.audio('incorrect');
         
@@ -117,12 +129,36 @@ Defusal.Phase1.prototype = {
         }
         
         if(correct1 == 1 && correct2 == 1 && correct3 == 1 && correct4 == 1){
+            if(notbeenset == 1){
+                delay = this.time.now+2000;
+                notbeenset = 0;
+            }
             
+            if(delay<this.time.now){
+                this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4);
+            }
             
-             this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4);
+             
         }
         if(wrongGuessesLeft < 1){
-             this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4);
+            if(notbeenset == 1){
+                delay = this.time.now+2000;
+                this.input.keyboard.removeKey(Phaser.Keyboard.ZERO);
+                this.input.keyboard.removeKey(Phaser.Keyboard.ONE);
+                this.input.keyboard.removeKey(Phaser.Keyboard.TWO);
+                this.input.keyboard.removeKey(Phaser.Keyboard.THREE);
+                this.input.keyboard.removeKey(Phaser.Keyboard.FOUR);
+                this.input.keyboard.removeKey(Phaser.Keyboard.FIVE);
+                this.input.keyboard.removeKey(Phaser.Keyboard.SIX);
+                this.input.keyboard.removeKey(Phaser.Keyboard.SEVEN);
+                this.input.keyboard.removeKey(Phaser.Keyboard.EIGHT);
+                this.input.keyboard.removeKey(Phaser.Keyboard.NINE);
+                notbeenset = 0;
+            }
+            
+            if(delay<this.time.now){
+                this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4);
+            }
         }
         
     },
