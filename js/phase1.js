@@ -32,6 +32,9 @@ var incorrectSound;
 var delay;
 var notbeenset = 1;
 
+var time = 1500;
+var timeText;
+
 //var timer, timerEvent;
 
 
@@ -53,6 +56,8 @@ Defusal.Phase1.prototype = {
         background.add(bomb);
         
         instructions = this.add.text(25, 25, "Use number keys to guess the correct code!", { fontSize: '20px', fill: '#fff' });
+        timeText = this.add.text(25, 60, "Timer: "+time, { fontSize: '20px', fill: '#fff' });
+        
         guessesLeftText = this.add.text(600, 50, "Threshold: " + wrongGuessesLeft, { fontSize: '20px', fill: '#a00' });
         textbox1 = this.add.text(240, 150, "0", { fontSize: '40px', fill: '#fff' });
         textbox2 = this.add.text(340, 150, "0", { fontSize: '40px', fill: '#fff' });
@@ -108,8 +113,13 @@ Defusal.Phase1.prototype = {
     update: function() {
         
         this.updateFlipping();
+        timeText.text = "Timer: "+time;
+        time--;
         
-        
+        if(time < 0){
+            var code = ""+digit1+" "+digit2+" "+digit3+" "+digit4;
+            this.state.start('Phase3', true, false, 0,  code, 0);
+        }
         
         
         
@@ -135,7 +145,7 @@ Defusal.Phase1.prototype = {
             }
             
             if(delay<this.time.now){
-                this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4);
+                this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4, time);
             }
             
              
@@ -157,7 +167,7 @@ Defusal.Phase1.prototype = {
             }
             
             if(delay<this.time.now){
-                this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4);
+                this.state.start('Phase2', true, false, digit1, digit2, digit3, digit4, time);
             }
         }
         
@@ -229,7 +239,8 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
-            //guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
+            time = time-70;
+            //time minus minus!!
         }
     },
     
@@ -251,8 +262,8 @@ Defusal.Phase1.prototype = {
             correctSound.play();
         }
         else{
+            time = time-70;
             wrongGuessesLeft--;
-            //guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
             incorrectSound.play();
         }
     },
@@ -276,6 +287,7 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
+            time = time-70;
             //guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
         }
         
@@ -300,6 +312,7 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
+            time = time-70;
             //guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
         }
         
@@ -324,6 +337,7 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
+            time = time-70;
            // guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
         }
         
@@ -348,6 +362,7 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
+            time = time-70;
            // guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
         }
         
@@ -372,6 +387,7 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
+            time = time-70;
            // guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
         }
         
@@ -396,6 +412,7 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
+            time = time-70;
             //guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
         }
         
@@ -418,6 +435,7 @@ Defusal.Phase1.prototype = {
             correctSound.play();
         }
         else{
+            time = time-70;
             wrongGuessesLeft--;
             incorrectSound.play();
             //guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
@@ -444,6 +462,7 @@ Defusal.Phase1.prototype = {
         else{
             wrongGuessesLeft--;
             incorrectSound.play();
+            time = time-70;
             //guessesLeftText.text = "Errors Remaining: "+wrongGuessesLeft;
         }
         

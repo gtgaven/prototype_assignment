@@ -22,19 +22,21 @@ var guess1;
 var guess2;
 var guess3;
 var guess4;
-
+var time;
+var timeText;
 var code;
 
 var currentGuess = 0;
 
 Defusal.Phase2.prototype = {
     
-    init: function(first, second, third, fourth){
+    init: function(first, second, third, fourth, t){
         digit1 = first;
         digit2 = second;
         digit3 = third;
         digit4 = fourth;
         code = ""+first+" "+second+" "+third+" "+fourth;
+        time = t;
     },
 
     preload: function(){
@@ -49,6 +51,7 @@ Defusal.Phase2.prototype = {
         background.add(bomb);
         
         instructions = this.add.text(25, 25, "Type code in correct order!", { fontSize: '20px', fill: '#fff' });
+        timeText = this.add.text(25, 60, "Timer: "+time, { fontSize: '20px', fill: '#fff' });
         textbox1 = this.add.text(240, 150, "*", { fontSize: '40px', fill: '#fff' });
         textbox2 = this.add.text(340, 150, "*", { fontSize: '40px', fill: '#fff' });
         textbox3 = this.add.text(450, 150, "*", { fontSize: '40px', fill: '#fff' });
@@ -98,6 +101,14 @@ Defusal.Phase2.prototype = {
         
        /* keep clock going  */
         
+        timeText.text = "Timer: "+time;
+        time--;
+        
+        if(time < 0){
+            //var code = ""+digit1+" "+digit2+" "+digit3+" "+digit4;
+            this.state.start('Phase3', true, false, 0,  code, time);
+        }
+        
         if(currentGuess >= 4){
             this.checkButton.visible = true;
             text.text = "PRESS THE GREEN BUTTON!!";
@@ -107,9 +118,9 @@ Defusal.Phase2.prototype = {
     
     checkCode: function(){
         if(guess1 == digit1 && guess2 == digit2 && guess3 == digit3 && guess4 == digit4){
-            this.state.start('Phase3', true, false, 1, code);
+            this.state.start('Phase3', true, false, 1, code, time);
         }else{
-            this.state.start('Phase3', true, false, 0, code);
+            this.state.start('Phase3', true, false, 0, code, time);
             
         }
         
