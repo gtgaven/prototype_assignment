@@ -17,7 +17,7 @@ Bouncy.MainMenu.prototype = {
 
 	create: function () {
         
-        var introtext = this.add.text(25, 150, "Welcome to Bouncy! In this game, you are in control\nof a bouncy beach ball which must safely make it back to its owner. Click around the\nball to accelerate it towards where you need to be, either evading obstacles or escaping\nthe level. ", { fontSize: '20px', fill: '#fff' });
+        var introtext = this.add.text(25, 150, "Welcome to Bouncy!", { fontSize: '20px', fill: '#fff' });
 
 		this.playButton = this.add.button(400, 400, 'startbutton', this.play, this);
 
@@ -42,7 +42,7 @@ Bouncy.MainMenu.prototype = {
 		//this.music.stop();
 
 		//	And start the actual game
-		this.state.start('Backstory');
+		this.state.start('Level1');
         
 
 	}
