@@ -1,120 +1,3 @@
-/*Bouncy.Level1 = function(game){
-    
-};
-
-
-//global vars
-var cannon;
-var ball;
-var catchFlag = false;
-var launchVelocity = 0;
-
-
-Bouncy.Level1.prototype = {
-    
-    preload: function(){
-        this.load.image('analog', 'assets/background.png');
-        this.load.image('cannon', 'assets/turret.png');
-        this.load.image('ball', 'assets/ball.gif');   
-    },
-    
-    create: function(){
-        this.physics.startSystem(Phaser.Physics.ARCADE);
-
-        // set global gravity
-        this.physics.arcade.gravity.y = 200;
-        this.stage.backgroundColor = '#0072bc';
-
-        var graphics = this.add.graphics(0,0);
-        graphics.beginFill(0x049e0c);
-        graphics.drawRect(395, 350, 10, 250);
-
-        analog = this.add.sprite(400, 350, 'analog');
-
-        this.physics.enable(analog, Phaser.Physics.ARCADE);
-
-        analog.body.allowGravity = false;
-        analog.width = 8;
-        analog.rotation = 220;
-        analog.alpha = 0;
-        analog.anchor.setTo(0.5, 0.0);
-
-        cannon = this.add.sprite(400, 350, 'cannon');
-
-        this.physics.enable(cannon, Phaser.Physics.ARCADE);
-
-        cannon.anchor.setTo(0.1, 0.5);
-        cannon.body.moves = false;
-        cannon.body.allowGravity = false;
-        cannon.alpha = 0;
-
-        ball = this.add.sprite(100, 400, 'ball');
-        this.physics.enable(ball, Phaser.Physics.ARCADE);
-        ball.anchor.setTo(0.5, 0.5);
-        ball.body.collideWorldBounds = false;
-        ball.body.bounce.setTo(0.9, 0.9);
-
-        // Enable input.
-        ball.inputEnabled = true;
-        ball.input.start(0, true);
-        ball.events.onInputDown.add(this.set);
-        ball.events.onInputUp.add(this.launch);
-    },
-        
-   
-        
-    update: function(){
-        
-        cannon.rotation = this.physics.arcade.angleBetween(cannon, ball);
-    
-        if (catchFlag == true)
-        {
-            //  Track the ball sprite to the mouse  
-            ball.x = this.input.activePointer.worldX;   
-            ball.y = this.input.activePointer.worldY;
-
-            cannon.alpha = 1;    
-            analog.alpha = 0.5;
-            analog.rotation = cannon.rotation - 3.14 / 2;
-            analog.height = this.physics.arcade.distanceToPointer(cannon);  
-            launchVelocity = analog.height;
-        }   
-        
-    },
-    
-    render: function(){
-        this.debug.text("Drag the ball and release to launch", 32, 32);
-
-        this.debug.bodyInfo(ball, 32, 64);
-
-        // game.debug.spriteInfo(ball, 32, 64);
-        // game.debug.text("Launch Velocity: " + parseInt(launchVelocity), 32, 250);
-    },
-    
-     set: function(ball, pointer){
-        ball.body.moves = false;
-        ball.body.velocity.setTo(0, 0);
-        ball.body.allowGravity = false;
-        catchFlag = true;
-        
-    },
-        
-    launch: function(){
-        catchFlag = false;
-    
-        ball.body.moves = true;
-        cannon.alpha = 0;
-        analog.alpha = 0;
-        Xvector = (cannon.x - ball.x) * 3;
-        Yvector = (cannon.y - ball.y) * 3;
-        ball.body.allowGravity = true;  
-        ball.body.velocity.setTo(Xvector, Yvector);
-    }
-     
-};*/
-
-
-//var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 Bouncy.Level1 = function(game){
     
@@ -124,23 +7,43 @@ Bouncy.Level1 = function(game){
 //global vars
 var cannon;
 var balls;
-
+var walls;
 var fireRate = 1000;//lower number is faster
 var nextFire = 0;
+var wall1;
+var wall2;
+var wall3;
+var star;
+var numShots = 0;
 
 Bouncy.Level1.prototype = { 
     
     preload: function(){
         this.load.image('cannon', 'assets/turret.png');
         this.load.image('ball', 'assets/ball.gif');
+        this.load.image('wall_horz', 'assets/wall_horz.gif');
+        this.load.image('wall_vert', 'assets/wall_vert.gif');
+        this.load.image('star', 'assets/star.gif');
     },
 
     create: function(){
-        this.physics.startSystem(Phaser.Physics.ARCADE);
-        this.physics.arcade.gravity.y = 400;
+        //this.physics.startSystem(Phaser.Physics.ARCADE);
+        this.physics.arcade.gravity.y = 1000;
 
         this.stage.backgroundColor = '#313131';
+        
+        
 
+        
+        star = this.add.sprite(500, 100, 'star');
+        this.physics.enable(star, Phaser.Physics.ARCADE);
+        star.anchor.set(0.5);
+        star.enableBody = true;
+        star.body.collideWorldBounds = true;
+        star.body.immovable = true;
+        star.body.allowGravity = false;
+        
+        /*******/
         balls = this.add.group();
         balls.enableBody = true;
         balls.physicsBodyType = Phaser.Physics.ARCADE;
@@ -148,18 +51,58 @@ Bouncy.Level1.prototype = {
         balls.createMultiple(50, 'ball');
         balls.setAll('checkWorldBounds', true);
         balls.setAll('outOfBoundsKill', true);
+        
 
-        cannon = this.add.sprite(400, 300, 'cannon');
+        cannon = this.add.sprite(500, 400, 'cannon');
         cannon.anchor.set(0.5);
 
+            
+        wall1 = this.add.sprite(500, 30, 'wall_horz');
+        wall1.anchor.set(0.5);
+        wall2 = this.add.sprite(500, 300, 'wall_horz');
+        wall2.anchor.set(0.5);
+        wall3 = this.add.sprite(600, 650, 'wall_horz');
+        wall3.anchor.set(0.5);
+        wall4 = this.add.sprite(900, 200, 'wall_vert');
+        wall4.anchor.set(0.5);
+        
+        this.physics.enable([wall1, wall2, wall3, wall4], Phaser.Physics.ARCADE);
+        this.setupWall(wall1);
+        this.setupWall(wall2);
+        this.setupWall(wall3);
+        this.setupWall(wall4);
+        
+        
+        
+        
+        //wall1.body.collideWorldBounds = true;
+	    //wall1.body.checkCollision.up = true;
+	    //wall1.body.checkCollision.down = true;
+	    //wall1.body.immovable = true;
+        
         //this.physics.enable(sprite, Phaser.Physics.ARCADE);
         this.physics.enable(balls, Phaser.Physics.ARCADE);
-
-        cannon.body.allowRotation = false;
+        //this.physics.enable(wall1, Phaser.Physics.ARCADE);
+        //this.physics.enable(wall2, Phaser.Physics.ARCADE);
+        //this.physics.enable(wall3, Phaser.Physics.ARCADE);
+        
+        
+        
+        //cannon.body.allowRotation = false;
     },
     
     update: function(){
+        
+        
         cannon.rotation = this.physics.arcade.angleToPointer(cannon);
+        this.physics.arcade.collide(wall1, balls, this.ballHitWall, null, this);
+        this.physics.arcade.collide(wall2, balls, this.ballHitWall, null, this);
+        this.physics.arcade.collide(wall3, balls, this.ballHitWall, null, this);
+        this.physics.arcade.collide(wall4, balls, this.ballHitWall, null, this);
+        this.physics.arcade.collide(star, balls, this.captureStar, null, this);
+        //this.physics.arcade.collide(wall1, balls);
+        //this.physics.arcade.collide(wall2, ball);
+        //this.physics.arcade.collide(wall3, ball);
 
         if (this.input.activePointer.isDown)
         {
@@ -170,6 +113,7 @@ Bouncy.Level1.prototype = {
     fire: function(){
         if (this.time.now > nextFire && balls.countDead() > 0)
         {
+            numShots++;
             nextFire = this.time.now + fireRate;
 
             var ball = balls.getFirstDead();
@@ -178,14 +122,37 @@ Bouncy.Level1.prototype = {
 
             //this.physics.arcade.moveToPointer(ball, 300);
             ball.body.moves = true;
+            ball.body.bounce.set(1);
             //cannon.alpha = 0;
             //analog.alpha = 0;
             Xvector = (this.input.mousePointer.x - cannon.x) * 3;
             Yvector = (this.input.mousePointer.y - cannon.y) * 3;
             //ball.body.allowGravity = true;  
             ball.body.velocity.setTo(Xvector, Yvector);
+            
+            
         }
+    },
+    
+        
+    ballHitWall: function(){
+        //wall1.kill();
+        
+    },
+    
+    captureStar: function(){
+        this.state.start('Finish', true, false, 0, numShots);
+    },
+    
+    setupWall: function(a){
+        a.enableBody = true;
+        a.body.collideWorldBounds = true;
+        a.body.bounce.set(1);
+        a.body.immovable = true;
+        a.body.allowGravity = false;
     }
+    
+    
     
     /*render: function(){
         this.debug.text('Active Balls: ' + balls.countLiving() + ' / ' + balls.total, 32, 32);
