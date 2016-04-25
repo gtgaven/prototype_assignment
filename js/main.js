@@ -1,6 +1,6 @@
 window.onload = function() {
 
-	var game = new Phaser.Game(1200, 700, Phaser.AUTO, 'game');
+	var game = new Phaser.Game(800, 500, Phaser.AUTO, 'game');
 	game.state.add('MainMenu', Bouncy.MainMenu);
 	game.state.add('Level1', Bouncy.Level1);
     game.state.add('Finish', Bouncy.Finish);

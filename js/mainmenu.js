@@ -19,7 +19,7 @@ Bouncy.MainMenu.prototype = {
         
         var introtext = this.add.text(25, 150, "Welcome to Bouncy!", { fontSize: '20px', fill: '#fff' });
 
-		this.playButton = this.add.button(400, 400, 'startbutton', this.play, this);
+		this.playButton = this.add.button(300, 100, 'startbutton', this.play, this);
 
 	},
 
