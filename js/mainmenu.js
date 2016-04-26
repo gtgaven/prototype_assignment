@@ -15,6 +15,7 @@ Bouncy.MainMenu.prototype = {
         this.load.image('startbutton', 'assets/startbutton.png');
         this.load.image('helpbutton', 'assets/helpbutton.png');
         this.load.image('gametitle', 'assets/gametitle.png');
+        this.load.image('playInfo', 'assets/playInfo.png');
         this.load.audio('introSong', 'assets/playThatFunkyMusic.mp3');
         //this.load.audio('correct', 'assets/numkey.wav');
         //this.load.audio('incorrect', 'assets/need_cells.wav');
@@ -35,10 +36,10 @@ Bouncy.MainMenu.prototype = {
 	},
 
 	update: function () {
-
-//        if (!this.music.isPlaying){
-//            this.music.play();
-//        }
+        
+        if (!music.isPlaying){
+            music.play();
+        }
 		//	Do some nice funky main menu effect here
 
 	},
