@@ -43,12 +43,12 @@ Bouncy.Level1.prototype = {
 
         
         star = this.add.sprite(500, 100, 'star');
-        this.physics.enable(star, Phaser.Physics.ARCADE);
+        /*this.physics.enable(star, Phaser.Physics.ARCADE);
         star.anchor.set(0.5);
         star.enableBody = true;
         star.body.collideWorldBounds = true;
         star.body.immovable = true;
-        star.body.allowGravity = false;
+        star.body.allowGravity = false;*/
         
         /*******/
         
@@ -74,14 +74,16 @@ Bouncy.Level1.prototype = {
         saucer.animations.add('spin', [0, 1, 2, 3, 4, 5, 6]);
         
 
-        cannon = this.add.sprite(450, 400, 'cannon');
+        cannon = this.add.sprite(60, 50, 'cannon');
         cannon.anchor.set(0.5);
         
-        layer = map.createLayer('Tile Layer 1');//field directly following the coordinates
+        layer = map.createLayer('Tile Layer 1');//field directly following the coordinates was working with 'Tile Layer 1'
         layer.resizeWorld();
         
         
-        map.setCollisionBetween(3, 300);//i THINK this should be a set of surfaces that should be collide-able; 251 is the flat horiz one
+        
+       // map.setCollisionBetween(3, 300);//i THINK this should be a set of surfaces that should be collide-able; 251 is the flat horiz one
+        //map.setCollision(213);
         layer.debug = true;//to see the collision spaces
         this.physics.p2.convertTilemap(map, layer);
         this.physics.p2.gravity.y = 1000;
@@ -89,7 +91,9 @@ Bouncy.Level1.prototype = {
         //this.physics.p2.enable(balls);
         //this.physics.p2.convertCollisionObjects(map, layer, addToWorld);//NOT WORKING
         
-        
+        var objLayer1 = this.physics.p2.convertCollisionObjects(map, "Object Layer 1", true);
+        var objLayer2 = this.physics.p2.convertCollisionObjects(map, "Object Layer 2", true);//WHY IS ONLY THIS LAYER NOT WORKING??
+        var objLayer3 = this.physics.p2.convertCollisionObjects(map, "Object Layer 3", true);
     },
     
     update: function(){
@@ -119,8 +123,8 @@ Bouncy.Level1.prototype = {
             
         }*/
         saucer.reset(cannon.x - 8, cannon.y - 8);
-        Xvector = (this.input.mousePointer.x - cannon.x);
-        Yvector = (this.input.mousePointer.y - cannon.y);
+        Xvector = (this.input.mousePointer.x - cannon.x) + 50;
+        Yvector = (this.input.mousePointer.y - cannon.y) +50;
         saucer.body.velocity.x = Xvector;
         saucer.body.velocity.y = Yvector;
         saucer.animations.play('spin', 15, true);
