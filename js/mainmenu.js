@@ -12,10 +12,10 @@ var title;
 Bouncy.MainMenu.prototype = {
     
     preload: function(){
-        this.load.image('startbutton', 'assets/pics/startbutton.png');
-        this.load.image('helpbutton', 'assets/pics/helpbutton.png');
-        this.load.image('gametitle', 'assets/pics/gametitle.png');
-        this.load.audio('introSong', 'assets/audio/playThatFunkyMusic.mp3');
+        this.load.image('startbutton', 'assets/startbutton.png');
+        this.load.image('helpbutton', 'assets/helpbutton.png');
+        this.load.image('gametitle', 'assets/gametitle.png');
+        this.load.audio('introSong', 'assets/playThatFunkyMusic.mp3');
         //this.load.audio('correct', 'assets/numkey.wav');
         //this.load.audio('incorrect', 'assets/need_cells.wav');
         //this.load.audio('explosionsound', 'assets/explosion.mp3');
