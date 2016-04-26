@@ -6,10 +6,16 @@ Bouncy.MainMenu = function (game) {
     //this.wall = null;
 };
 
+// global Vars
+var title;
+
 Bouncy.MainMenu.prototype = {
     
     preload: function(){
-        this.load.image('startbutton', 'assets/startbutton.png');
+        this.load.image('startbutton', 'assets/pics/startbutton.png');
+        this.load.image('helpbutton', 'assets/pics/helpbutton.png');
+        this.load.image('gametitle', 'assets/pics/gametitle.png');
+        this.load.audio('introSong', 'assets/audio/playThatFunkyMusic.mp3');
         //this.load.audio('correct', 'assets/numkey.wav');
         //this.load.audio('incorrect', 'assets/need_cells.wav');
         //this.load.audio('explosionsound', 'assets/explosion.mp3');
@@ -17,9 +23,14 @@ Bouncy.MainMenu.prototype = {
 
 	create: function () {
         
-        var introtext = this.add.text(25, 150, "Welcome to Bouncy!", { fontSize: '20px', fill: '#fff' });
+        title = this.add.sprite(this.world.centerX, this.world.centerY, 'gametitle');
+        title.anchor.setTo(0.5, 0.5);
 
-		this.playButton = this.add.button(300, 100, 'startbutton', this.play, this);
+		this.playButton = this.add.button(this.world.centerX - 55, 385, 'startbutton', this.play, this);
+        this.playButton = this.add.button(this.world.centerX - 90, 450, 'helpbutton', this.play, this);
+        
+        music = this.add.audio('introSong');
+        music.play();
 
 	},
 
@@ -39,7 +50,7 @@ Bouncy.MainMenu.prototype = {
 	play: function (pointer) {
 
 		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
-		//this.music.stop();
+		music.stop();
 
 		//	And start the actual game
 		this.state.start('Level1');
