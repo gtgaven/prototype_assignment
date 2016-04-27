@@ -18,13 +18,14 @@ var star;
 var numShots = 0;
 var map;
 var layer;
+var infoText;
 
 Bouncy.Level1.prototype = { 
     
     preload: function(){
         this.load.tilemap('level_1', 'assets/Eggplant Level.json', null, Phaser.Tilemap.TILED_JSON);//the JSON file stored in assets/
         this.load.image('tiles', 'assets/tiles.png');//just a png of the set of tiles to be used
-        this.load.image('cannon', 'assets/turret.png');
+        this.load.image('cannon', 'assets/turret.gif');
         //this.load.image('ball', 'assets/saucer.png');
         this.load.spritesheet('saucer', 'assets/saucer.png', 16, 16 );
         this.load.image('star', 'assets/star.gif');
@@ -38,6 +39,8 @@ Bouncy.Level1.prototype = {
         this.stage.backgroundColor = '#787878';
         
         map.addTilesetImage('Tile Map', 'tiles');//adding the tiles.png to the name specified in JSON under field "tilesets"
+        
+        infoText = this.add.text(20, 500, "Power: 0", { fontSize: '40px', fill: '#fff' });
         
         
 
@@ -92,12 +95,16 @@ Bouncy.Level1.prototype = {
         //this.physics.p2.convertCollisionObjects(map, layer, addToWorld);//NOT WORKING
         
         var objLayer1 = this.physics.p2.convertCollisionObjects(map, "Object Layer 1", true);
-        var objLayer2 = this.physics.p2.convertCollisionObjects(map, "Object Layer 2", true);//WHY IS ONLY THIS LAYER NOT WORKING??
+        var objLayer2 = this.physics.p2.convertCollisionObjects(map, "Object Layer 2", true);
         var objLayer3 = this.physics.p2.convertCollisionObjects(map, "Object Layer 3", true);
     },
     
     update: function(){
         
+       var mx = this.input.mousePointer.x;
+        var my = this.input.mousePointer.y;
+        var power = Math.round(Math.sqrt((mx-cannon.x)*(mx-cannon.x) + (my-cannon.y)*(my-cannon.y)));
+        infoText.text = "Power: "+power;
         
         cannon.rotation = this.physics.arcade.angleToPointer(cannon);
 
@@ -123,8 +130,8 @@ Bouncy.Level1.prototype = {
             
         }*/
         saucer.reset(cannon.x - 8, cannon.y - 8);
-        Xvector = (this.input.mousePointer.x - cannon.x) + 50;
-        Yvector = (this.input.mousePointer.y - cannon.y) +50;
+        Xvector = (this.input.mousePointer.x - cannon.x);
+        Yvector = (this.input.mousePointer.y - cannon.y);
         saucer.body.velocity.x = Xvector;
         saucer.body.velocity.y = Yvector;
         saucer.animations.play('spin', 15, true);
