@@ -21,7 +21,7 @@ Bouncy.MainMenu.prototype = {
         this.load.image('backbutton', 'assets/backbutton.png');
         this.load.image('gametitle', 'assets/gametitle.png');
         this.load.image('playInfo', 'assets/playInfo.png');
-        this.load.audio('introSong', 'assets/playThatFunkyMusic.mp3');
+        this.load.audio('introSong', 'assets/spacePhase.mp3');
         //this.load.audio('correct', 'assets/numkey.wav');
         //this.load.audio('incorrect', 'assets/need_cells.wav');
         //this.load.audio('explosionsound', 'assets/explosion.mp3');
