@@ -8,12 +8,17 @@ Bouncy.MainMenu = function (game) {
 
 // global Vars
 var title;
+var startB;
+var instructionB;
+var goBackB;
+var gameInfo;
 
 Bouncy.MainMenu.prototype = {
     
     preload: function(){
         this.load.image('startbutton', 'assets/startbutton.png');
         this.load.image('helpbutton', 'assets/helpbutton.png');
+        this.load.image('backbutton', 'assets/backbutton.png');
         this.load.image('gametitle', 'assets/gametitle.png');
         this.load.image('playInfo', 'assets/playInfo.png');
         this.load.audio('introSong', 'assets/playThatFunkyMusic.mp3');
@@ -27,11 +32,13 @@ Bouncy.MainMenu.prototype = {
         title = this.add.sprite(this.world.centerX, this.world.centerY, 'gametitle');
         title.anchor.setTo(0.5, 0.5);
 
-		this.playButton = this.add.button(this.world.centerX - 55, 385, 'startbutton', this.play, this);
-        this.playButton = this.add.button(this.world.centerX - 90, 450, 'helpbutton', this.play, this);
+		startB = this.add.button(this.world.centerX - 55, 585, 'startbutton', this.play, this);
+        instructionB = this.add.button(this.world.centerX - 90, 650, 'helpbutton', this.instruction, this);
         
         music = this.add.audio('introSong');
-        music.play();
+        if(!music.isPlaying){
+            music.play();
+        }
 
 	},
 
@@ -56,7 +63,22 @@ Bouncy.MainMenu.prototype = {
 		//	And start the actual game
 		this.state.start('Level1');
         
-
-	}
+	},
+    
+    instruction: function (pointer) {
+        
+        startB.kill();
+        instructionB.kill();
+        gameInfo = this.add.sprite(200, 50, 'playInfo');
+        goBackB = this.add.button(450, 375, 'backbutton', this.goBack, this);
+    },
+    
+    goBack: function(pointer) {
+        
+        goBackB.kill();
+        gameInfo.kill();
+        startB = this.add.button(this.world.centerX - 55, 585, 'startbutton', this.play, this);
+        instructionB = this.add.button(this.world.centerX - 90, 650, 'helpbutton', this.instruction, this);     
+    }
 
 };
