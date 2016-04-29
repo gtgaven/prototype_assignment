@@ -61,7 +61,7 @@ Bouncy.MainMenu.prototype = {
 		music.stop();
 
 		//	And start the actual game
-		this.state.start('Level1');
+		this.state.start('Level0');
         
 	},
     
