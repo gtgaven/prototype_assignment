@@ -22,7 +22,7 @@ Bouncy.Finish.prototype = {
 	},
     
     update: function() {
-        text = this.add.text(25, 25, "You beat level 1! More levels to come...", { fontSize: '20px', fill: '#fff' });
+        text = this.add.text(25, 25, "You beat the trial version! \nUnlock the deluxe pack for just $0.99", { fontSize: '20px', fill: '#fff' });
        
     }
 };
