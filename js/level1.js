@@ -2,6 +2,7 @@
 Bouncy.Level1 = function(game){
 };
 //global vars
+var background;
 var cannon;
 var saucer;
 var star;
@@ -13,6 +14,7 @@ var infoText;
 Bouncy.Level1.prototype = { 
     
     preload: function(){
+        this.load.image('sun', 'assets/sun.png');
         this.load.tilemap('level_1', 'assets/Eggplant Level.json', null, Phaser.Tilemap.TILED_JSON);//the JSON file stored in assets/
         this.load.image('tiles', 'assets/tiles.png');//just a png of the set of tiles to be used
         this.load.image('cannon', 'assets/turret.gif');
@@ -21,6 +23,7 @@ Bouncy.Level1.prototype = {
     },
 
     create: function(){
+        background = this.add.sprite(0,0, 'sun');
         this.physics.startSystem(Phaser.Physics.P2JS);
         this.physics.p2.setImpactEvents(true);//so that collisions can call functions
         map = this.add.tilemap('level_1');
