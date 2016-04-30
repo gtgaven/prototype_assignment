@@ -18,6 +18,9 @@ var cannon;
 var saucer;
 var star;
 
+// Sound Vars.
+var shootSound;
+
 var state = 0;
 
 Bouncy.MainMenu.prototype = {
@@ -29,7 +32,9 @@ Bouncy.MainMenu.prototype = {
         this.load.image('backbutton', 'assets/backbutton.png');
         this.load.image('gametitle', 'assets/gametitle.png');
         this.load.image('playInfo', 'assets/playInfo.png');
+        
         this.load.audio('introSong', 'assets/spacePhase.mp3');
+        this.load.audio('chamberDecompressing', 'assets/chamberDecompressing.mp3')
         
         // Playing Instruction Vars.
         this.load.image('cannon', 'assets/turret.gif');
@@ -54,14 +59,17 @@ Bouncy.MainMenu.prototype = {
         music = this.add.audio('introSong');
         if(!music.isPlaying){
             music.play();
+            music.volume = 0.2;
         }
+        
+        shootSound = this.add.audio('chamberDecompressing');
 
 	},
 
 	update: function () {
         
         if (!music.isPlaying){
-            music.play();
+            music.play(1, 2);
         }
         
         if(state == 1)
@@ -139,6 +147,7 @@ Bouncy.MainMenu.prototype = {
         star.destroy();
         saucer.destroy();
         cannon.destroy();
+        shootSound.stop();
         
         state = 0;
         
@@ -151,6 +160,7 @@ Bouncy.MainMenu.prototype = {
     
     fire: function(){
         numShots++;
+        shootSound.play();
         saucer.reset(cannon.x - 8, cannon.y - 8);
         Xvector = (this.input.mousePointer.x - cannon.x);
         Yvector = (this.input.mousePointer.y - cannon.y);

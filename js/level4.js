@@ -20,6 +20,9 @@ Bouncy.Level4.prototype = { //**************************************************
         this.load.image('cannon', 'assets/turret.gif');
         this.load.spritesheet('saucer', 'assets/saucer.png', 16, 16 );
         this.load.image('star', 'assets/star.gif');
+        
+        this.load.audio('chamberDecompressing', 'assets/chamberDecompressing.mp3');
+        this.load.audio('bounce', 'assets/bounce.mp3');
     },
 
     create: function(){
@@ -57,6 +60,9 @@ Bouncy.Level4.prototype = { //**************************************************
         var objLayer2 = this.physics.p2.convertCollisionObjects(map, "Object Layer 2", true);
         var objLayer3 = this.physics.p2.convertCollisionObjects(map, "Object Layer 3", true);
         
+         // Audio
+        shootSound = this.add.audio('chamberDecompressing');
+        bounceSound = this.add.audio('bounce');
     },
     
     update: function(){
@@ -90,10 +96,19 @@ Bouncy.Level4.prototype = { //**************************************************
         saucer.body.velocity.x = Xvector;
         saucer.body.velocity.y = Yvector;
         saucer.animations.play('spin', 15, true);
+        shootSound.play();
     },
     
     captureStar: function(){
+        shootSound.stop();
         this.state.start('Finish', true, false, 0, numShots);//*****************************************
+    },
+    
+    // Plays Bounce.
+    bounceBack: function(){
+        shootSound.stop();
+        bounceSound.stop();
+        bounceSound.play();
     },
 
 };
