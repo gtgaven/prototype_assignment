@@ -69,7 +69,7 @@ Bouncy.MainMenu.prototype = {
 	update: function () {
         
         if (!music.isPlaying){
-            music.play(1, 2);
+            music.play();
         }
         
         if(state == 1)
