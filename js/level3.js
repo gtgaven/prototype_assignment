@@ -26,6 +26,7 @@ Bouncy.Level3.prototype = { //**************************************************
     },
 
     create: function(){
+        
         background = this.add.sprite(0,0, 'space');
         this.physics.startSystem(Phaser.Physics.P2JS);
         this.physics.p2.setImpactEvents(true);//so that collisions can call functions
@@ -65,11 +66,18 @@ Bouncy.Level3.prototype = { //**************************************************
          // Audio
         shootSound = this.add.audio('chamberDecompressing');
         bounceSound = this.add.audio('bounce');
+        
+        if(!music.isPlaying){
+            music.play();
+            music.volume = 0.2;
+        }
     },
     
     update: function(){
         
-        
+        if (!music.isPlaying){
+            music.play();
+        }
         
         var mx = this.input.mousePointer.x;
         var my = this.input.mousePointer.y;

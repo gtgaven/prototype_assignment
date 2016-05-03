@@ -14,6 +14,7 @@ var infoText;
 // Sound Vars.
 var shootSound;
 var bounceSound;
+var music;
 
 Bouncy.Level0.prototype = { //****************************************************
     
@@ -27,6 +28,7 @@ Bouncy.Level0.prototype = { //**************************************************
         
         this.load.audio('chamberDecompressing', 'assets/chamberDecompressing.mp3');
         this.load.audio('bounce', 'assets/bounce.mp3');
+        this.load.audio('theme', 'assets/Gravity Well (Extended).mp3')
     },
 
     create: function(){
@@ -36,6 +38,7 @@ Bouncy.Level0.prototype = { //**************************************************
         map = this.add.tilemap('level_0');//****************************************************************
         this.stage.backgroundColor = '#787878';
         map.addTilesetImage('Tile Map', 'tiles');//adding the tiles.png to the name specified in JSON under field "tilesets"
+        
         infoText = this.add.text(20, 500, "Power: 0", { fontSize: '40px', fill: '#fff' });
         
         star = this.add.sprite(375, 710, 'star');
@@ -67,9 +70,19 @@ Bouncy.Level0.prototype = { //**************************************************
         // Audio
         shootSound = this.add.audio('chamberDecompressing');
         bounceSound = this.add.audio('bounce');
+        
+        music = this.add.audio('theme');
+        if(!music.isPlaying){
+            music.play();
+            music.volume = 0.2;
+        }
     },
     
     update: function(){
+        
+        if (!music.isPlaying){
+            music.play();
+        }
         
         var mx = this.input.mousePointer.x;
         var my = this.input.mousePointer.y;
@@ -83,7 +96,6 @@ Bouncy.Level0.prototype = { //**************************************************
             saucer.visible = true;
             this.fire();
         }
-        
         
         if((saucer.x>star.x) && (saucer.x<star.x+70) && (saucer.y>star.y) && (saucer.y<star.y+70)){
             this.captureStar();
@@ -109,7 +121,7 @@ Bouncy.Level0.prototype = { //**************************************************
     },
     
     // Plays Bounce.
-    bounceBack: function(){
+    bounceBack: function(objLayer1){
         shootSound.stop();
         bounceSound.stop();
         bounceSound.play();

@@ -63,11 +63,18 @@ Bouncy.Level4.prototype = { //**************************************************
          // Audio
         shootSound = this.add.audio('chamberDecompressing');
         bounceSound = this.add.audio('bounce');
+        
+        if(!music.isPlaying){
+            music.play();
+            music.volume = 0.2;
+        }
     },
     
     update: function(){
         
-        
+        if (!music.isPlaying){
+            music.play();
+        }
         
         var mx = this.input.mousePointer.x;
         var my = this.input.mousePointer.y;
@@ -101,6 +108,7 @@ Bouncy.Level4.prototype = { //**************************************************
     
     captureStar: function(){
         shootSound.stop();
+        music.stop();
         this.state.start('Finish', true, false, 0, numShots);//*****************************************
     },
     
